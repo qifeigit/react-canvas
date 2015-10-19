@@ -4,6 +4,8 @@ var connect = require('gulp-connect');
 var webpack = require('gulp-webpack');
 var webpackConfig = require('./webpack.config.js');
 
+var sys = require('sys');
+
 var port = process.env.PORT || 8080;
 var reloadPort = process.env.RELOAD_PORT || 35729;
 
@@ -11,8 +13,10 @@ gulp.task('clean', function () {
   del(['build']);
 });
 
+sys.debug("计数器：" + webpackConfig.entry);
+
 gulp.task('build', function () {
-  return gulp.src(webpackConfig.entry.timeline[0])
+  return gulp.src(webpackConfig.entry['css-layout'][0])
     .pipe(webpack(webpackConfig))
     .pipe(gulp.dest('build/'));
 });
@@ -34,5 +38,4 @@ gulp.task('reload-js', function () {
 gulp.task('watch', function () {
   gulp.watch(['./build/*.js'], ['reload-js']);
 });
-
 gulp.task('default', ['clean', 'build', 'serve', 'watch']);
